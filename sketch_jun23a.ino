@@ -6,12 +6,14 @@ const int echoPin = 10;
 float duration, distance;
 const int object_in = 8;
 
-const int STEPS_PER_REV = 200;
-const int MICROSTEPS = 10;
-const int DELAY_US = 100;
+const int STEPS_PER_REV = 200; // for vertical:200, flip: 200,
+const int MICROSTEPS = 6; // for vertical:10, flip: 4,
+const int DELAY_US = 100; // for vertical:100, flip: 400,
 
-double tower_height_bottom_limit = 21.5;
-double tower_height_top_limit = 20.5;
+// here we set where the verical tower should stop. the top limit (highest possible point) is 7 and bottom limit is 26. the difference between given top and bottom limit
+// is better to be at least 0.4 and max 1. 
+double tower_height_top_limit = 14.4; 
+double tower_height_bottom_limit = 14.6;
 
 int userInput=0;
 
@@ -26,7 +28,8 @@ void setup() {
 
   digitalWrite(EN_PIN, LOW); 
   Serial.begin(9600);
-  Serial.println("Stepper Motor Control Ready");
+  Serial.println("\n\nStepper Motor Control Ready.");
+  Serial.println("1: forward move, 2: backward move\n3: display the height, 4: place the tower in the given [top, bottom] limit height.");
   Serial.println("Enter a number from 1 to 4: ");
 }
 
@@ -46,11 +49,13 @@ void loop() {
   // put your main code here, to run repeatedly:
   Serial.println("Rotating forward...");
   rotateMotor(true, STEPS_PER_REV * MICROSTEPS);
-  //delay(2000);
+  //userInput=0;
+  //delay(3000);
     }
   else if(userInput == 2) {
   Serial.println("Rotating backward...");
   rotateMotor(false, STEPS_PER_REV * MICROSTEPS);
+  //userInput=0;
   //delay(2000);
   }
   else if(userInput == 3){
@@ -66,10 +71,8 @@ void loop() {
   }
 }
 
-
-
 void analyze_vertical(){
-    int distance = check_distance();
+    double distance = check_distance();
     if(distance < tower_height_top_limit){
       Serial.println("Rotating forward...");
       rotateMotor(true, STEPS_PER_REV * MICROSTEPS);
