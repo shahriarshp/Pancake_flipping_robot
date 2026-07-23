@@ -14,7 +14,7 @@ int steps_for_flip = 100;
 
 // declare delay between steps
 int delay_steps_base = 500;
-int delay_steps_vectical = 100;
+int delay_steps_vertical = 100;
 int delay_steps_horizontal = 500;
 int delay_steps_flip = 500;
 
@@ -68,7 +68,7 @@ void loop(){
       Serial.read();
     }
   }
-	if(userInput>10 && userinput < 20){
+	if(userInput>10 && userInput < 20){
 		measured_distance = ultrasonic_sensor(userInput%10);
     Serial.print("Distance: ");
     Serial.println(measured_distance);
@@ -116,7 +116,7 @@ void loop(){
 	else{
 		digitalWrite(en_pin_base, HIGH);
 		digitalWrite(en_pin_vertical, HIGH);
-		digitalWrite(en_pin_hotizontal, HIGH);
+		digitalWrite(en_pin_horizontal, HIGH);
 		digitalWrite(en_pin_flip, HIGH);
 		digitalWrite(trigPin, LOW);
 	}
